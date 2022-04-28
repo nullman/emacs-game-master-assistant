@@ -11,19 +11,18 @@
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2 of the License, or
-;; (at your option) any later version.
+;; This program is free software; you can redistribute it and/or modify it under
+;; the terms of the GNU General Public License as published by the Free Software
+;; Foundation; either version 2 of the License, or (at your option) any later
+;; version.
 ;;
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
+;; This program is distributed in the hope that it will be useful, but WITHOUT
+;; ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+;; FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 ;;
-;; You should have received a copy of the GNU General Public License along
-;; with this program; if not, write to the Free Software Foundation, Inc.,
-;; 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+;; You should have received a copy of the GNU General Public License along with
+;; this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
+;; Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ;;
 ;;; Commentary:
 ;;
@@ -41,100 +40,90 @@
 
 ;;; Code:
 
-(require 'game-master-assistant-name-lists)
-(require 'game-master-assistant-places-lists)
-(require 'game-master-assistant-ironsworn-lists)
+(require 'game-master-assistant-lists)
 
-(defmacro game-master--defun-with-result-to-kill-ring (name arglist &optional docstring &rest body)
-  "Return a `defun' with its result copied to the `kill-ring'"
-  (declare (doc-string 3) (indent 2))
-  `(defun ,name ,arglist ,docstring (kill-new (progn ,@body))))
+(defvar game-master-assistant-random-queries
+  '()
+  "An alist of random query names, descriptions, and code that can
+be evaluated to generate a random result.
 
-(defun game-master-assistant-random-name (type)
-  "Return a random name of TYPE.
+Format:
 
-Where TYPE is in one of these lists:
+  '((NAME-1 . DESC-1 . LAMBDA-1)
+    (NAME-2 . DESC-2 . LAMBDA-2)
+    ...
+    (NAME-N . DESC-N . LAMBDA-N))")
 
-  `game-master-assistant-name-lists-types'
-  `game-master-assistant-places-lists-types'"
-  (let* ((names (or
-                 (ignore-errors (game-master-assistant-get-name-list type))
-                 (ignore-errors (game-master-assistant-get-places-list type))))
-         (len (length names)))
-    (capitalize (nth (random len) names))))
+;; (defmacro game-master-assistant--defun-with-result-to-kill-ring (name arglist &optional docstring &rest body)
+;;   "Return a `defun' with its result copied to the `kill-ring'."
+;;   (declare (doc-string 3) (indent 2))
+;;   `(defun ,name ,arglist ,docstring (kill-new (progn ,@body))))
 
-;;; Names
+;; (defmacro game-master-assistant--lambda-with-result-to-kill-ring (name &rest body)
+;;   "Return a lambda with its result copied to the `kill-ring'."
+;;   `(lambda () (kill-new (progn ,@body))))
 
-(game-master--defun-with-result-to-kill-ring
-    game-master-assistant-random-english-male-name ()
-  "Return a random English male full name."
-  (concat
-   (game-master-assistant-random-name :english-male-given-name)
-   " "
-   (game-master-assistant-random-name :english-surname)))
+(defun game-master-assistant-random-value (name)
+  "Return a random value from random list NAME.
 
-(game-master--defun-with-result-to-kill-ring
-    game-master-assistant-random-english-female-name ()
-  "Return a random English female full name."
-  (concat
-   (game-master-assistant-random-name :english-female-given-name)
-   " "
-   (game-master-assistant-random-name :english-surname)))
+Where NAME is a list name in `game-master-assistant-list-names'."
+  (let* ((values (game-master-assistant-list name))
+         (len (length values)))
+    (capitalize (nth (random len) values))))
 
-(game-master--defun-with-result-to-kill-ring
-    game-master-assistant-random-viking-male-name ()
-  "Return a random Viking male full name."
-  (concat
-   (game-master-assistant-random-name :viking-male-given-name)
-   " "
-   (game-master-assistant-random-name :viking-surname)))
+(defun game-master-assistant-random-query (name)
+  "Return a random value from random query NAME,
 
-(game-master--defun-with-result-to-kill-ring
-    game-master-assistant-random-viking-female-name ()
-  "Return a random Viking female full name."
-  (concat
-   (game-master-assistant-random-name :viking-female-given-name)
-   " "
-   (game-master-assistant-random-name :viking-surname)))
+Where NAME is a query name in `game-master-assistant-random-queries'."
+  (funcall (cddr (assoc name game-master-assistant-random-queries))))
 
-;;; Places
+;;; Single List Queries
 
-(game-master--defun-with-result-to-kill-ring
-    game-master-assistant-random-tavern-name ()
-  "Return a random tavern name."
-  (concat
-   "The "
-   (game-master-assistant-random-name :adjective-general)
-   " "
-   (game-master-assistant-random-name :noun-tavern)))
+;; add random list queries to `game-master-assistant-random-queries'
+(setq game-master-assistant-random-queries '())
+(dolist (name game-master-assistant-random-list-names)
+  (add-to-list
+   'game-master-assistant-random-queries
+   (cons name
+         (cons (get (game-master-assistant-list-name name) 'variable-documentation)
+               `(lambda () (kill-new (game-master-assistant-random-value ,name)))))))
 
-(game-master--defun-with-result-to-kill-ring
-    game-master-assistant-random-viking-town ()
-  "Return a random Viking town name."
-  (game-master-assistant-random-name :viking-town))
+;;; Custom Queries: Names
+
+(defmacro game-master-assistant--add-name-query (type gender)
+  "Add a full name query entry to `game-master-assistant-random-queries',
+using TYPE and GENDER."
+  `(add-to-list
+    'game-master-assistant-random-queries
+    (cons ,(intern (format ":name-%s-%s-full" type gender))
+          (cons ,(format "Return a random %s %s full name." (capitalize type) gender)
+                (lambda ()
+                  (kill-new
+                   (concat
+                    (game-master-assistant-random-value ,(intern (format ":name-%s-%s-given" type gender)))
+                    " "
+                    (game-master-assistant-random-value ,(intern (format ":name-%s-surname" type gender))))))))))
+
+(game-master-assistant--add-name-query "english" "male")
+(game-master-assistant--add-name-query "english" "female")
+(game-master-assistant--add-name-query "viking" "male")
+(game-master-assistant--add-name-query "viking" "female")
+
+;;; Custom Queries: Places
+
+(add-to-list
+ 'game-master-assistant-random-queries
+ (cons :place-tavern
+       (cons "Return a random tavern name."
+             `(lambda ()
+                  (kill-new
+                   (concat
+                    "The "
+                    (game-master-assistant-random-value :adjective-tavern)
+                    " "
+                    (game-master-assistant-random-value :noun-place)))))))
 
 ;;; Ironsworn
-
-(defun game-master-assistant-ironsworn (type)
-  "Return a random Ironsworn lookup of TYPE.
-
-Where TYPE is one of:
-
-  :oracle-action
-  :oracle-theme"
-  (let* ((names (game-master-assistant-get-ironsworn-list type))
-         (len (length names)))
-    (capitalize (nth (random len) names))))
-
-(game-master--defun-with-result-to-kill-ring
-    game-master-assistant-ironsworn-oracle-action ()
-  "Return an Ironsworn Oracle action."
-  (game-master-assistant-ironsworn :oracle-action))
-
-(game-master--defun-with-result-to-kill-ring
-    game-master-assistant-ironsworn-oracle-theme ()
-  "Return an Ironsworn Oracle theme."
-  (game-master-assistant-ironsworn :oracle-theme))
 
 (provide 'game-master-assistant)
 

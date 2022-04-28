@@ -11,7 +11,7 @@
   #+LANGUAGE: en
   #+PROPERTY: header-args :tangle no :noweb yes :results silent :mkdir yes
   #+OPTIONS: num:nil toc:nil d:(HIDE) tags:not-in-toc html-preamble:nil html-postamble:nil
-  #+TIMESTAMP: <2022-04-27 14:31 (kyle)>
+  #+TIMESTAMP: <2022-04-28 15:27 (kyle)>
 
 * Table of Contents
   :PROPERTIES:
@@ -161,18 +161,23 @@
 
       ;;; Code:
 
-      (defvar game-master-assistant-random-lists
+      (defvar game-master-assistant-random-list-names
         '()
-        "Random lists that can be queried.")
+        "Names of random lists that can be queried.")
 
-        (defun game-master-assistant-get-list (name)
-          "Return list NAME.
+      (defun game-master-assistant-list-name (name)
+        "Return list name for NAME.
 
-        Where NAME is an entry in `game-master-assistant-random-lists'."
-          (mapcar #'car (symbol-value
-                         (intern
-                          (concat "game-master-assistant-list-"
-                                  (substring (format "%s" name) 1))))))
+      Where NAME is an entry in `game-master-assistant-random-list-names'."
+        (intern
+         (concat "game-master-assistant-list-"
+                 (substring (format "%s" name) 1))))
+
+      (defun game-master-assistant-list (name)
+        "Return list contents for NAME.
+
+      Where NAME is an entry in `game-master-assistant-random-list-names'."
+        (mapcar #'car (symbol-value (game-master-assistant-get-list-name name))))
       #+END_SRC
 
 *** General Lists
@@ -408,7 +413,7 @@
           (quote <<list-adjective-general()>>)
           "List of general adjectives.")
 
-        (add-to-list 'game-master-assistant-random-lists :adjective-general)
+        (add-to-list 'game-master-assistant-random-list-names :adjective-general)
       #+END_SRC
 
 ***** Noun List: Animals
@@ -482,7 +487,7 @@
           (quote <<list-noun-animal()>>)
           "List of animal nouns.")
 
-        (add-to-list 'game-master-assistant-random-lists :noun-animal)
+        (add-to-list 'game-master-assistant-random-list-names :noun-animal)
       #+END_SRC
 
 *** Name Lists
@@ -1256,7 +1261,7 @@
           (quote <<list-name-english-male-given()>>)
           "List of English male given names.")
 
-        (add-to-list 'game-master-assistant-random-lists :name-english-male-given)
+        (add-to-list 'game-master-assistant-random-list-names :name-english-male-given)
       #+END_SRC
 
 ***** Name List: English Female Given Names
@@ -1994,7 +1999,7 @@
           (quote <<list-name-english-female-given()>>)
           "List of English female given names.")
 
-        (add-to-list 'game-master-assistant-random-lists :name-english-female-given)
+        (add-to-list 'game-master-assistant-random-list-names :name-english-female-given)
       #+END_SRC
 
 ***** Name List: English Surnames
@@ -4881,7 +4886,7 @@
           (quote <<list-name-english-surname()>>)
           "List of English surnames.")
 
-        (add-to-list 'game-master-assistant-random-lists :name-english-surname)
+        (add-to-list 'game-master-assistant-random-list-names :name-english-surname)
       #+END_SRC
 
 ***** Name List: Viking Male Given Names
@@ -5072,7 +5077,7 @@
           (quote <<list-name-viking-male-given()>>)
           "List of Viking male given names.")
 
-        (add-to-list 'game-master-assistant-random-lists :name-viking-male-given)
+        (add-to-list 'game-master-assistant-random-list-names :name-viking-male-given)
       #+END_SRC
 
 ***** Name List: Viking Female Given Names
@@ -5218,7 +5223,7 @@
           (quote <<list-name-viking-female-given()>>)
           "List of Viking female given names.")
 
-        (add-to-list 'game-master-assistant-random-lists :name-viking-female-given)
+        (add-to-list 'game-master-assistant-random-list-names :name-viking-female-given)
       #+END_SRC
 
 ***** Name List: Viking Surnames
@@ -5580,7 +5585,7 @@
           (quote <<list-name-viking-surname()>>)
           "List of Viking male surnames.")
 
-        (add-to-list 'game-master-assistant-random-lists :name-viking-surname)
+        (add-to-list 'game-master-assistant-random-list-names :name-viking-surname)
       #+END_SRC
 
 *** Places Lists
@@ -5627,7 +5632,7 @@
           (quote <<list-noun-place()>>)
           "List of place (location) nouns.")
 
-        (add-to-list 'game-master-assistant-random-lists :noun-place)
+        (add-to-list 'game-master-assistant-random-list-names :noun-place)
       #+END_SRC
 
 ***** Adjective List: Tavern
@@ -5780,7 +5785,7 @@
           (quote <<list-adjective-tavern()>>)
           "List of tavern adjectives.")
 
-        (add-to-list 'game-master-assistant-random-lists :adjective-tavern)
+        (add-to-list 'game-master-assistant-random-list-names :adjective-tavern)
       #+END_SRC
 
 ***** Town List: Viking Towns
@@ -5973,7 +5978,7 @@
           (quote <<list-town-viking()>>)
           "List of viking towns.")
 
-        (add-to-list 'game-master-assistant-random-lists :town-viking)
+        (add-to-list 'game-master-assistant-random-list-names :town-viking)
       #+END_SRC
 
 *** Ironsworn Lists
@@ -6287,7 +6292,7 @@
           (quote <<list-ironsworn-oracle-action()>>)
           "List of Ironsworn Oracle actions.")
 
-        (add-to-list 'game-master-assistant-random-lists :ironsworn-oracle-action)
+        (add-to-list 'game-master-assistant-random-list-names :ironsworn-oracle-action)
       #+END_SRC
 
 ***** Ironsworn List: Oracle: Theme
@@ -6599,7 +6604,7 @@
           (quote <<list-ironsworn-oracle-theme()>>)
           "List of Ironsworn Oracle themes.")
 
-        (add-to-list 'game-master-assistant-random-lists :ironsworn-oracle-theme)
+        (add-to-list 'game-master-assistant-random-list-names :ironsworn-oracle-theme)
       #+END_SRC
 
 *** Footer
@@ -6648,109 +6653,86 @@
 
     (defvar game-master-assistant-random-queries
       '()
-      "An alist of random query names and code that can be evaluated to
-    generate a random result.
+      "An alist of random query names, descriptions, and code that can
+    be evaluated to generate a random result.
 
     Format:
 
-      '((NAME . DESC . EVAL)
-        ...)")
+      '((NAME-1 . DESC-1 . LAMBDA-1)
+        (NAME-2 . DESC-2 . LAMBDA-2)
+        ...
+        (NAME-N . DESC-N . LAMBDA-N))")
+
+    ;; (defmacro game-master-assistant--defun-with-result-to-kill-ring (name arglist &optional docstring &rest body)
+    ;;   "Return a `defun' with its result copied to the `kill-ring'."
+    ;;   (declare (doc-string 3) (indent 2))
+    ;;   `(defun ,name ,arglist ,docstring (kill-new (progn ,@body))))
+
+    ;; (defmacro game-master-assistant--lambda-with-result-to-kill-ring (name &rest body)
+    ;;   "Return a lambda with its result copied to the `kill-ring'."
+    ;;   `(lambda () (kill-new (progn ,@body))))
+
+    (defun game-master-assistant-random-value (name)
+      "Return a random value from random list NAME.
+
+    Where NAME is a list name in `game-master-assistant-list-names'."
+      (let* ((values (game-master-assistant-list name))
+             (len (length values)))
+        (capitalize (nth (random len) values))))
+
+    (defun game-master-assistant-random-query (name)
+      "Return a random value from random query NAME,
+
+    Where NAME is a query name in `game-master-assistant-random-queries'."
+      (funcall (cddr (assoc name game-master-assistant-random-queries))))
+
+    ;;; Single List Queries
 
     ;; add random list queries to `game-master-assistant-random-queries'
     (setq game-master-assistant-random-queries '())
-    (dotimes (x game-master-assistant-random-lists)
+    (dolist (name game-master-assistant-random-list-names)
       (add-to-list
        'game-master-assistant-random-queries
-       (cons x
-             (cons
-              (lambda ()
+       (cons name
+             (cons (get (game-master-assistant-list-name name) 'variable-documentation)
+                   `(lambda () (kill-new (game-master-assistant-random-value ,name)))))))
 
+    ;;; Custom Queries: Names
 
-    (defmacro game-master-assistant--defun-with-result-to-kill-ring (name arglist &optional docstring &rest body)
-      "Return a `defun' with its result copied to the `kill-ring'"
-      (declare (doc-string 3) (indent 2))
-      `(defun ,name ,arglist ,docstring (kill-new (progn ,@body))))
+    (defmacro game-master-assistant--add-name-query (type gender)
+      "Add a full name query entry to `game-master-assistant-random-queries',
+    using TYPE and GENDER."
+      `(add-to-list
+        'game-master-assistant-random-queries
+        (cons ,(intern (format ":name-%s-%s-full" type gender))
+              (cons ,(format "Return a random %s %s full name." (capitalize type) gender)
+                    (lambda ()
+                      (kill-new
+                       (concat
+                        (game-master-assistant-random-value ,(intern (format ":name-%s-%s-given" type gender)))
+                        " "
+                        (game-master-assistant-random-value ,(intern (format ":name-%s-surname" type gender))))))))))
 
-    (defun game-master-assistant-random-query (name)
-      "Return a random item from random query NAME.
+    (game-master-assistant--add-name-query "english" "male")
+    (game-master-assistant--add-name-query "english" "female")
+    (game-master-assistant--add-name-query "viking" "male")
+    (game-master-assistant--add-name-query "viking" "female")
 
-    Where NAME is a query name in `game-master-assistant-random-queries'.")
-      (let* ((names (ignore-errors (game-master-assistant-get-list type)))
-             (len (length names)))
-        (capitalize (nth (random len) names))))
+    ;;; Custom Queries: Places
 
-    ;;; Names
-
-    (game-master--defun-with-result-to-kill-ring
-        game-master-assistant-random-english-male-name ()
-      "Return a random English male full name."
-      (concat
-       (game-master-assistant-random-name :english-male-given-name)
-       " "
-       (game-master-assistant-random-name :english-surname)))
-
-    (game-master--defun-with-result-to-kill-ring
-        game-master-assistant-random-english-female-name ()
-      "Return a random English female full name."
-      (concat
-       (game-master-assistant-random-name :english-female-given-name)
-       " "
-       (game-master-assistant-random-name :english-surname)))
-
-    (game-master--defun-with-result-to-kill-ring
-        game-master-assistant-random-viking-male-name ()
-      "Return a random Viking male full name."
-      (concat
-       (game-master-assistant-random-name :viking-male-given-name)
-       " "
-       (game-master-assistant-random-name :viking-surname)))
-
-    (game-master--defun-with-result-to-kill-ring
-        game-master-assistant-random-viking-female-name ()
-      "Return a random Viking female full name."
-      (concat
-       (game-master-assistant-random-name :viking-female-given-name)
-       " "
-       (game-master-assistant-random-name :viking-surname)))
-
-    ;;; Places
-
-    (game-master--defun-with-result-to-kill-ring
-        game-master-assistant-random-tavern-name ()
-      "Return a random tavern name."
-      (concat
-       "The "
-       (game-master-assistant-random-name :adjective-general)
-       " "
-       (game-master-assistant-random-name :noun-tavern)))
-
-    (game-master--defun-with-result-to-kill-ring
-        game-master-assistant-random-viking-town ()
-      "Return a random Viking town name."
-      (game-master-assistant-random-name :viking-town))
+    (add-to-list
+     'game-master-assistant-random-queries
+     (cons :place-tavern
+           (cons "Return a random tavern name."
+                 `(lambda ()
+                      (kill-new
+                       (concat
+                        "The "
+                        (game-master-assistant-random-value :adjective-tavern)
+                        " "
+                        (game-master-assistant-random-value :noun-place)))))))
 
     ;;; Ironsworn
-
-    (defun game-master-assistant-ironsworn (type)
-      "Return a random Ironsworn lookup of TYPE.
-
-    Where TYPE is one of:
-
-      :oracle-action
-      :oracle-theme"
-      (let* ((names (game-master-assistant-get-ironsworn-list type))
-             (len (length names)))
-        (capitalize (nth (random len) names))))
-
-    (game-master--defun-with-result-to-kill-ring
-        game-master-assistant-ironsworn-oracle-action ()
-      "Return an Ironsworn Oracle action."
-      (game-master-assistant-ironsworn :oracle-action))
-
-    (game-master--defun-with-result-to-kill-ring
-        game-master-assistant-ironsworn-oracle-theme ()
-      "Return an Ironsworn Oracle theme."
-      (game-master-assistant-ironsworn :oracle-theme))
 
     (provide 'game-master-assistant)
 
