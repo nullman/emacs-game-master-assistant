@@ -11,7 +11,7 @@
   #+LANGUAGE: en
   #+PROPERTY: header-args :tangle no :noweb yes :results silent :mkdir yes
   #+OPTIONS: num:nil toc:nil d:(HIDE) tags:not-in-toc html-preamble:nil html-postamble:nil
-  #+TIMESTAMP: <2022-04-29 12:02 (kyle)>
+  #+TIMESTAMP: <2022-04-29 13:37 (kyle)>
 
 * Table of Contents
   :PROPERTIES:
@@ -161,21 +161,14 @@
 
       ;;; Code:
 
-      (defvar game-master-assistant-random-list-names
+      (defvar game-master-assistant-lists
         '()
-        "Names of random lists that can be queried.")
+        "List of lists that can be queried (NAME . DESC . LIST).")
 
-      (defun game-master-assistant-list-name (name)
-        "Return list name for NAME.
-
-      Where NAME is an entry in `game-master-assistant-random-list-names'."
-        (format "game-master-assistant-list-%s" name))
-
-      (defun game-master-assistant-list (name)
-        "Return list contents for NAME.
-
-      Where NAME is an entry in `game-master-assistant-random-list-names'."
-        (mapcar #'car (symbol-value (game-master-assistant-get-list-name name))))
+      (defun game-master-assistant-lists--add-to-list (name desc list)
+        "Add an entry to `game-master-assistant-lists'."
+        (add-to-list 'game-master-assistant-lists
+                     (cons name (cons desc (list (mapcar #'car list))))))
       #+END_SRC
 
 *** General Lists
@@ -407,11 +400,10 @@
       | zealous       |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-adjective-general
-          (quote <<list-adjective-general()>>)
-          "List of general adjectives.")
-
-        (add-to-list 'game-master-assistant-random-list-names "adjective-general")
+        (game-master-assistant-lists--add-to-list
+         "adjective-general"
+         "List of general adjectives."
+         (quote <<list-adjective-general()>>))
       #+END_SRC
 
 ***** Noun List: Animals
@@ -481,11 +473,10 @@
       | zebra     |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-noun-animal
-          (quote <<list-noun-animal()>>)
-          "List of animal nouns.")
-
-        (add-to-list 'game-master-assistant-random-list-names "noun-animal")
+        (game-master-assistant-lists--add-to-list
+         "noun-animal"
+         "List of animal nouns."
+         (quote <<list-noun-animal()>>))
       #+END_SRC
 
 *** Name Lists
@@ -1255,11 +1246,10 @@
       | Ælfweard    |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-name-english-male-given
-          (quote <<list-name-english-male-given()>>)
-          "List of English male given names.")
-
-        (add-to-list 'game-master-assistant-random-list-names "noun-name-english-male-given")
+        (game-master-assistant-lists--add-to-list
+         "noun-name-english-male-given"
+         "List of English male given names."
+         (quote <<list-name-english-male-given()>>))
       #+END_SRC
 
 ***** Name List: English Female Given Names
@@ -1993,11 +1983,10 @@
       | Zoe         |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-name-english-female-given
-          (quote <<list-name-english-female-given()>>)
-          "List of English female given names.")
-
-        (add-to-list 'game-master-assistant-random-list-names "noun-name-english-female-given")
+        (game-master-assistant-lists--add-to-list
+         "noun-name-english-female-given"
+         "List of English female given names."
+         (quote <<list-name-english-female-given()>>))
       #+END_SRC
 
 ***** Name List: English Surnames
@@ -4880,11 +4869,10 @@
       | Zigler          |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-name-english-surname
-          (quote <<list-name-english-surname()>>)
-          "List of English surnames.")
-
-        (add-to-list 'game-master-assistant-random-list-names "noun-name-english-surname")
+        (game-master-assistant-lists--add-to-list
+         "noun-name-english-surname"
+         "List of English surnames."
+         (quote <<list-name-english-surname()>>))
       #+END_SRC
 
 ***** Name List: Viking Male Given Names
@@ -5071,11 +5059,10 @@
       | Øpir       |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-name-viking-male-given
-          (quote <<list-name-viking-male-given()>>)
-          "List of Viking male given names.")
-
-        (add-to-list 'game-master-assistant-random-list-names "noun-name-viking-male-given")
+        (game-master-assistant-lists--add-to-list
+         "noun-name-viking-male-given"
+         "List of Viking male given names."
+         (quote <<list-name-viking-male-given()>>))
       #+END_SRC
 
 ***** Name List: Viking Female Given Names
@@ -5217,11 +5204,10 @@
       | Þuriðr     |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-viking-female-given
-          (quote <<list-name-viking-female-given()>>)
-          "List of Viking female given names.")
-
-        (add-to-list 'game-master-assistant-random-list-names "noun-name-viking-female-given")
+        (game-master-assistant-lists--add-to-list
+         "noun-name-viking-female-given"
+         "List of Viking female given names."
+         (quote <<list-name-viking-female-given()>>))
       #+END_SRC
 
 ***** Name List: Viking Surnames
@@ -5579,11 +5565,10 @@
       | Øybiorndottir    |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-name-viking-surname
-          (quote <<list-name-viking-surname()>>)
-          "List of Viking male surnames.")
-
-        (add-to-list 'game-master-assistant-random-list-names "noun-name-viking-surname")
+        (game-master-assistant-lists--add-to-list
+         "noun-name-viking-surname"
+         "List of Viking male surnames."
+         (quote <<list-name-viking-surname()>>))
       #+END_SRC
 
 *** Places Lists
@@ -5626,11 +5611,10 @@
       | tree      |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-noun-place
-          (quote <<list-noun-place()>>)
-          "List of place (location) nouns.")
-
-        (add-to-list 'game-master-assistant-random-list-names "noun-place")
+        (game-master-assistant-lists--add-to-list
+         "noun-place"
+         "List of place (location) nouns."
+         (quote <<list-noun-place()>>))
       #+END_SRC
 
 ***** Adjective List: Tavern
@@ -5779,11 +5763,10 @@
       | zealous       |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-adjective-tavern
-          (quote <<list-adjective-tavern()>>)
-          "List of tavern adjectives.")
-
-        (add-to-list 'game-master-assistant-random-list-names "adjective-tavern")
+        (game-master-assistant-lists--add-to-list
+         "adjective-tavern"
+         "List of tavern adjectives."
+         (quote <<list-adjective-tavern()>>))
       #+END_SRC
 
 ***** Town List: Viking Towns
@@ -5972,11 +5955,10 @@
       | Tungufljot                   |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-town-viking
-          (quote <<list-town-viking()>>)
-          "List of viking towns.")
-
-        (add-to-list 'game-master-assistant-random-list-names "noun-town-viking")
+        (game-master-assistant-lists--add-to-list
+         "noun-town-viking"
+         "List of viking towns."
+         (quote <<list-town-viking()>>))
       #+END_SRC
 
 *** Ironsworn Lists
@@ -6286,11 +6268,10 @@
       | Awaken      |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-ironsworn-oracle-action
-          (quote <<list-ironsworn-oracle-action()>>)
-          "List of Ironsworn Oracle actions.")
-
-        (add-to-list 'game-master-assistant-random-list-names "ironsworn-oracle-action")
+        (game-master-assistant-lists--add-to-list
+         "ironsworn-oracle-action"
+         "List of Ironsworn Oracle actions."
+         (quote <<list-ironsworn-oracle-action()>>))
       #+END_SRC
 
 ***** Ironsworn List: Oracle: Theme
@@ -6598,11 +6579,10 @@
       | Refusal        |
 
       #+BEGIN_SRC emacs-lisp
-        (defvar game-master-assistant-list-ironsworn-oracle-theme
-          (quote <<list-ironsworn-oracle-theme()>>)
-          "List of Ironsworn Oracle themes.")
-
-        (add-to-list 'game-master-assistant-random-list-names "ironsworn-oracle-theme")
+        (game-master-assistant-lists--add-to-list
+         "ironsworn-oracle-theme"
+         "List of Ironsworn Oracle themes."
+         (quote <<list-ironsworn-oracle-theme()>>))
       #+END_SRC
 
 *** Footer
@@ -6677,8 +6657,8 @@
     (defun game-master-assistant-random-value (name)
       "Return a random value from random list NAME.
 
-    Where NAME is a list name in `game-master-assistant-list-names'."
-      (let* ((values (game-master-assistant-list name))
+    Where NAME is a list name in `game-master-assistant-lists'."
+      (let* ((values (caddr (assoc name game-master-assistant-lists)))
              (len (length values)))
         (capitalize (nth (random len) values))))
 
@@ -6700,7 +6680,7 @@
       (add-to-list
        'game-master-assistant-random-queries
        (cons name
-             (cons (get (game-master-assistant-list-name name) 'variable-documentation)
+             (cons (cadr (assoc name game-master-assistant-lists))
                    `(lambda () (kill-new (game-master-assistant-random-value ,name)))))))
 
     ;;; Custom Queries: Names
