@@ -70,8 +70,8 @@ Format:
 (defun game-master-assistant-random-value (name)
   "Return a random value from random list NAME.
 
-Where NAME is a list name in `game-master-assistant-list-names'."
-  (let* ((values (game-master-assistant-list name))
+Where NAME is a list name in `game-master-assistant-lists'."
+  (let* ((values (caddr (assoc name game-master-assistant-lists)))
          (len (length values)))
     (capitalize (nth (random len) values))))
 
@@ -81,10 +81,10 @@ Where NAME is a list name in `game-master-assistant-list-names'."
 Where NAME is a query name in `game-master-assistant-random-queries'."
   (interactive)
   (let ((name (or name
-                  (read-from-minibuffer "Name: "
-                                        (car game-master-assistant-random-query-history)
-                                        nil nil
-                                        'game-master-assistant-random-query-history))))
+                  (completing-read
+                   "Query Name: "
+                   game-master-assistant-random-query-history
+                   nil t nil))))
     (funcall (cddr (assoc name game-master-assistant-random-queries)))))
 
 ;;; Single List Queries
@@ -93,7 +93,7 @@ Where NAME is a query name in `game-master-assistant-random-queries'."
   (add-to-list
    'game-master-assistant-random-queries
    (cons name
-         (cons (get (game-master-assistant-list-name name) 'variable-documentation)
+         (cons (cadr (assoc name game-master-assistant-lists))
                `(lambda () (kill-new (game-master-assistant-random-value ,name)))))))
 
 ;;; Custom Queries: Names
@@ -131,9 +131,21 @@ using TYPE and GENDER."
                     " "
                     (game-master-assistant-random-value "noun-place")))))))
 
-;;; Ironsworn
+;;; Custom Queries: Ironsworn
 
-;;; Set Random Query History
+(add-to-list
+ 'game-master-assistant-random-queries
+ (cons "ironsworn-oracle-action-theme"
+       (cons "Return a random Ironsworn Oracle Action/Theme."
+             `(lambda ()
+                  (kill-new
+                   (concat
+                    (game-master-assistant-random-value "ironsworn-oracle-action")
+                    " / "
+                    (game-master-assistant-random-value "ironsworn-oracle-theme")))))))
+
+;;; Final Setup
+
 (setq game-master-assistant-random-query-history (mapcar 'car game-master-assistant-random-queries))
 
 (provide 'game-master-assistant)
