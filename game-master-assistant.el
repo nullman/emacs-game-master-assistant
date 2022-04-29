@@ -54,6 +54,10 @@ Format:
     ...
     (NAME-N . DESC-N . LAMBDA-N))")
 
+(defvar game-master-assistant-random-query-history
+  '()
+  "History of `game-master-assistant-random-query' name arguments.")
+
 ;; (defmacro game-master-assistant--defun-with-result-to-kill-ring (name arglist &optional docstring &rest body)
 ;;   "Return a `defun' with its result copied to the `kill-ring'."
 ;;   (declare (doc-string 3) (indent 2))
@@ -71,16 +75,20 @@ Where NAME is a list name in `game-master-assistant-list-names'."
          (len (length values)))
     (capitalize (nth (random len) values))))
 
-(defun game-master-assistant-random-query (name)
+(defun game-master-assistant-random-query (&optional name)
   "Return a random value from random query NAME,
 
 Where NAME is a query name in `game-master-assistant-random-queries'."
-  (funcall (cddr (assoc name game-master-assistant-random-queries))))
+  (interactive)
+  (let ((name (or name
+                  (read-from-minibuffer "Name: "
+                                        (car game-master-assistant-random-query-history)
+                                        nil nil
+                                        'game-master-assistant-random-query-history))))
+    (funcall (cddr (assoc name game-master-assistant-random-queries)))))
 
 ;;; Single List Queries
 
-;; add random list queries to `game-master-assistant-random-queries'
-(setq game-master-assistant-random-queries '())
 (dolist (name game-master-assistant-random-list-names)
   (add-to-list
    'game-master-assistant-random-queries
@@ -95,14 +103,14 @@ Where NAME is a query name in `game-master-assistant-random-queries'."
 using TYPE and GENDER."
   `(add-to-list
     'game-master-assistant-random-queries
-    (cons ,(intern (format ":name-%s-%s-full" type gender))
+    (cons ,(format "noun-name-%s-%s-full" type gender)
           (cons ,(format "Return a random %s %s full name." (capitalize type) gender)
                 (lambda ()
                   (kill-new
                    (concat
-                    (game-master-assistant-random-value ,(intern (format ":name-%s-%s-given" type gender)))
+                    (game-master-assistant-random-value ,(format "noun-name-%s-%s-given" type gender))
                     " "
-                    (game-master-assistant-random-value ,(intern (format ":name-%s-surname" type gender))))))))))
+                    (game-master-assistant-random-value ,(format "noun-name-%s-surname" type gender)))))))))
 
 (game-master-assistant--add-name-query "english" "male")
 (game-master-assistant--add-name-query "english" "female")
@@ -113,17 +121,20 @@ using TYPE and GENDER."
 
 (add-to-list
  'game-master-assistant-random-queries
- (cons :place-tavern
+ (cons "noun-place-tavern"
        (cons "Return a random tavern name."
              `(lambda ()
                   (kill-new
                    (concat
                     "The "
-                    (game-master-assistant-random-value :adjective-tavern)
+                    (game-master-assistant-random-value "adjective-tavern")
                     " "
-                    (game-master-assistant-random-value :noun-place)))))))
+                    (game-master-assistant-random-value "noun-place")))))))
 
 ;;; Ironsworn
+
+;;; Set Random Query History
+(setq game-master-assistant-random-query-history (mapcar 'car game-master-assistant-random-queries))
 
 (provide 'game-master-assistant)
 

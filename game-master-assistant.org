@@ -11,7 +11,7 @@
   #+LANGUAGE: en
   #+PROPERTY: header-args :tangle no :noweb yes :results silent :mkdir yes
   #+OPTIONS: num:nil toc:nil d:(HIDE) tags:not-in-toc html-preamble:nil html-postamble:nil
-  #+TIMESTAMP: <2022-04-28 15:27 (kyle)>
+  #+TIMESTAMP: <2022-04-29 12:02 (kyle)>
 
 * Table of Contents
   :PROPERTIES:
@@ -169,9 +169,7 @@
         "Return list name for NAME.
 
       Where NAME is an entry in `game-master-assistant-random-list-names'."
-        (intern
-         (concat "game-master-assistant-list-"
-                 (substring (format "%s" name) 1))))
+        (format "game-master-assistant-list-%s" name))
 
       (defun game-master-assistant-list (name)
         "Return list contents for NAME.
@@ -413,7 +411,7 @@
           (quote <<list-adjective-general()>>)
           "List of general adjectives.")
 
-        (add-to-list 'game-master-assistant-random-list-names :adjective-general)
+        (add-to-list 'game-master-assistant-random-list-names "adjective-general")
       #+END_SRC
 
 ***** Noun List: Animals
@@ -487,7 +485,7 @@
           (quote <<list-noun-animal()>>)
           "List of animal nouns.")
 
-        (add-to-list 'game-master-assistant-random-list-names :noun-animal)
+        (add-to-list 'game-master-assistant-random-list-names "noun-animal")
       #+END_SRC
 
 *** Name Lists
@@ -1261,7 +1259,7 @@
           (quote <<list-name-english-male-given()>>)
           "List of English male given names.")
 
-        (add-to-list 'game-master-assistant-random-list-names :name-english-male-given)
+        (add-to-list 'game-master-assistant-random-list-names "noun-name-english-male-given")
       #+END_SRC
 
 ***** Name List: English Female Given Names
@@ -1999,7 +1997,7 @@
           (quote <<list-name-english-female-given()>>)
           "List of English female given names.")
 
-        (add-to-list 'game-master-assistant-random-list-names :name-english-female-given)
+        (add-to-list 'game-master-assistant-random-list-names "noun-name-english-female-given")
       #+END_SRC
 
 ***** Name List: English Surnames
@@ -4886,7 +4884,7 @@
           (quote <<list-name-english-surname()>>)
           "List of English surnames.")
 
-        (add-to-list 'game-master-assistant-random-list-names :name-english-surname)
+        (add-to-list 'game-master-assistant-random-list-names "noun-name-english-surname")
       #+END_SRC
 
 ***** Name List: Viking Male Given Names
@@ -5077,7 +5075,7 @@
           (quote <<list-name-viking-male-given()>>)
           "List of Viking male given names.")
 
-        (add-to-list 'game-master-assistant-random-list-names :name-viking-male-given)
+        (add-to-list 'game-master-assistant-random-list-names "noun-name-viking-male-given")
       #+END_SRC
 
 ***** Name List: Viking Female Given Names
@@ -5223,7 +5221,7 @@
           (quote <<list-name-viking-female-given()>>)
           "List of Viking female given names.")
 
-        (add-to-list 'game-master-assistant-random-list-names :name-viking-female-given)
+        (add-to-list 'game-master-assistant-random-list-names "noun-name-viking-female-given")
       #+END_SRC
 
 ***** Name List: Viking Surnames
@@ -5585,7 +5583,7 @@
           (quote <<list-name-viking-surname()>>)
           "List of Viking male surnames.")
 
-        (add-to-list 'game-master-assistant-random-list-names :name-viking-surname)
+        (add-to-list 'game-master-assistant-random-list-names "noun-name-viking-surname")
       #+END_SRC
 
 *** Places Lists
@@ -5632,7 +5630,7 @@
           (quote <<list-noun-place()>>)
           "List of place (location) nouns.")
 
-        (add-to-list 'game-master-assistant-random-list-names :noun-place)
+        (add-to-list 'game-master-assistant-random-list-names "noun-place")
       #+END_SRC
 
 ***** Adjective List: Tavern
@@ -5785,7 +5783,7 @@
           (quote <<list-adjective-tavern()>>)
           "List of tavern adjectives.")
 
-        (add-to-list 'game-master-assistant-random-list-names :adjective-tavern)
+        (add-to-list 'game-master-assistant-random-list-names "adjective-tavern")
       #+END_SRC
 
 ***** Town List: Viking Towns
@@ -5978,7 +5976,7 @@
           (quote <<list-town-viking()>>)
           "List of viking towns.")
 
-        (add-to-list 'game-master-assistant-random-list-names :town-viking)
+        (add-to-list 'game-master-assistant-random-list-names "noun-town-viking")
       #+END_SRC
 
 *** Ironsworn Lists
@@ -6292,7 +6290,7 @@
           (quote <<list-ironsworn-oracle-action()>>)
           "List of Ironsworn Oracle actions.")
 
-        (add-to-list 'game-master-assistant-random-list-names :ironsworn-oracle-action)
+        (add-to-list 'game-master-assistant-random-list-names "ironsworn-oracle-action")
       #+END_SRC
 
 ***** Ironsworn List: Oracle: Theme
@@ -6604,7 +6602,7 @@
           (quote <<list-ironsworn-oracle-theme()>>)
           "List of Ironsworn Oracle themes.")
 
-        (add-to-list 'game-master-assistant-random-list-names :ironsworn-oracle-theme)
+        (add-to-list 'game-master-assistant-random-list-names "ironsworn-oracle-theme")
       #+END_SRC
 
 *** Footer
@@ -6663,6 +6661,10 @@
         ...
         (NAME-N . DESC-N . LAMBDA-N))")
 
+    (defvar game-master-assistant-random-query-history
+      '()
+      "History of `game-master-assistant-random-query' name arguments.")
+
     ;; (defmacro game-master-assistant--defun-with-result-to-kill-ring (name arglist &optional docstring &rest body)
     ;;   "Return a `defun' with its result copied to the `kill-ring'."
     ;;   (declare (doc-string 3) (indent 2))
@@ -6680,16 +6682,20 @@
              (len (length values)))
         (capitalize (nth (random len) values))))
 
-    (defun game-master-assistant-random-query (name)
+    (defun game-master-assistant-random-query (&optional name)
       "Return a random value from random query NAME,
 
     Where NAME is a query name in `game-master-assistant-random-queries'."
-      (funcall (cddr (assoc name game-master-assistant-random-queries))))
+      (interactive)
+      (let ((name (or name
+                      (read-from-minibuffer "Name: "
+                                            (car game-master-assistant-random-query-history)
+                                            nil nil
+                                            'game-master-assistant-random-query-history))))
+        (funcall (cddr (assoc name game-master-assistant-random-queries)))))
 
     ;;; Single List Queries
 
-    ;; add random list queries to `game-master-assistant-random-queries'
-    (setq game-master-assistant-random-queries '())
     (dolist (name game-master-assistant-random-list-names)
       (add-to-list
        'game-master-assistant-random-queries
@@ -6704,14 +6710,14 @@
     using TYPE and GENDER."
       `(add-to-list
         'game-master-assistant-random-queries
-        (cons ,(intern (format ":name-%s-%s-full" type gender))
+        (cons ,(format "noun-name-%s-%s-full" type gender)
               (cons ,(format "Return a random %s %s full name." (capitalize type) gender)
                     (lambda ()
                       (kill-new
                        (concat
-                        (game-master-assistant-random-value ,(intern (format ":name-%s-%s-given" type gender)))
+                        (game-master-assistant-random-value ,(format "noun-name-%s-%s-given" type gender))
                         " "
-                        (game-master-assistant-random-value ,(intern (format ":name-%s-surname" type gender))))))))))
+                        (game-master-assistant-random-value ,(format "noun-name-%s-surname" type gender)))))))))
 
     (game-master-assistant--add-name-query "english" "male")
     (game-master-assistant--add-name-query "english" "female")
@@ -6722,17 +6728,20 @@
 
     (add-to-list
      'game-master-assistant-random-queries
-     (cons :place-tavern
+     (cons "noun-place-tavern"
            (cons "Return a random tavern name."
                  `(lambda ()
                       (kill-new
                        (concat
                         "The "
-                        (game-master-assistant-random-value :adjective-tavern)
+                        (game-master-assistant-random-value "adjective-tavern")
                         " "
-                        (game-master-assistant-random-value :noun-place)))))))
+                        (game-master-assistant-random-value "noun-place")))))))
 
     ;;; Ironsworn
+
+    ;;; Set Random Query History
+    (setq game-master-assistant-random-query-history (mapcar 'car game-master-assistant-random-queries))
 
     (provide 'game-master-assistant)
 
