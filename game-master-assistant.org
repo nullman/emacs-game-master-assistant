@@ -11,7 +11,7 @@
   #+LANGUAGE: en
   #+PROPERTY: header-args :tangle no :noweb yes :results silent :mkdir yes
   #+OPTIONS: num:nil toc:nil d:(HIDE) tags:not-in-toc html-preamble:nil html-postamble:nil
-  #+TIMESTAMP: <2022-04-29 16:35 (kyle)>
+  #+TIMESTAMP: <2022-05-15 13:11 (kyle)>
 
 * Table of Contents
   :PROPERTIES:
@@ -477,6 +477,29 @@
          "noun-animal"
          "List of animal nouns."
          (quote <<list-noun-animal()>>))
+      #+END_SRC
+
+***** Hit Location
+
+      #+NAME: list-hit-location
+      | head       |
+      | chest      |
+      | full body  |
+      | stomach    |
+      | left hand  |
+      | left arm   |
+      | left leg   |
+      | left foot  |
+      | right hand |
+      | right arm  |
+      | right leg  |
+      | right foot |
+
+      #+BEGIN_SRC emacs-lisp
+        (game-master-assistant-lists--add-to-list
+         "hit-location"
+         "List of body part hit locations."
+         (quote <<list-hit-location()>>))
       #+END_SRC
 
 *** Name Lists
@@ -6662,21 +6685,9 @@
              (len (length values)))
         (capitalize (nth (random len) values))))
 
-    (defun game-master-assistant-random-query (&optional name)
-      "Return a random value from random query NAME,
-
-    Where NAME is a query name in `game-master-assistant-random-queries'."
-      (interactive)
-      (let ((name (or name
-                      (completing-read
-                       "Query Name: "
-                       game-master-assistant-random-query-history
-                       nil t nil))))
-        (funcall (cddr (assoc name game-master-assistant-random-queries)))))
-
     ;;; Single List Queries
 
-    (dolist (name game-master-assistant-random-list-names)
+    (dolist (name (mapcar #'car game-master-assistant-lists))
       (add-to-list
        'game-master-assistant-random-queries
        (cons name
@@ -6734,6 +6745,18 @@
     ;;; Final Setup
 
     (setq game-master-assistant-random-query-history (mapcar 'car game-master-assistant-random-queries))
+
+    (defun game-master-assistant-random-query (&optional name)
+      "Return a random value from random query NAME,
+
+    Where NAME is a query name in `game-master-assistant-random-queries'."
+      (interactive)
+      (let ((name (or name
+                      (completing-read
+                       "Query Name: "
+                       game-master-assistant-random-query-history
+                       nil t nil))))
+        (funcall (cddr (assoc name game-master-assistant-random-queries)))))
 
     (provide 'game-master-assistant)
 
