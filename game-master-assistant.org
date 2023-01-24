@@ -1,7 +1,4 @@
-* Org
-  :PROPERTIES:
-  :TOC: :ignore this
-  :END:
+* Org                                                              :noexport:
   #+TITLE: Game Master Assistant
   #+AUTHOR: Kyle W T Sherman
   #+EMAIL: kylewsherman@gmail.com
@@ -11,29 +8,7 @@
   #+LANGUAGE: en
   #+PROPERTY: header-args :tangle no :noweb yes :results silent :mkdir yes
   #+OPTIONS: num:nil toc:nil d:(HIDE) tags:not-in-toc html-preamble:nil html-postamble:nil
-  #+TIMESTAMP: <2022-05-18 14:02 (kyle)>
-
-* Table of Contents
-  :PROPERTIES:
-  :TOC: :include all :ignore this
-  :END:
-
-  :CONTENTS:
-- [[#constants][Constants]]
-  - [[#name][Name]]
-  - [[#email][Email]]
-  - [[#author][Author]]
-  - [[#copyright][Copyright]]
-  - [[#url][URL]]
-  - [[#license-header][License Header]]
-- [[#readmeorg][README.org]]
-- [[#org-visibilityel][game-master-assistant.el]]
-- [[#org-visibility-testel][game-master-assistant-test.el]]
-- [[#makefile][Makefile]]
-- [[#elpaignore][.elpaignore]]
-- [[#gitignore][.gitignore]]
-- [[#license][LICENSE]]
-  :END:
+  #+TIMESTAMP: <2023-01-24 13:43 (kyle)>
 
 * Constants
 
@@ -45,36 +20,75 @@
     #+END_SRC
 
 *** Name
+    :PROPERTIES:
+    :CUSTOM_ID: constants-name
+    :END:
 
     #+NAME: name
+    #+BEGIN_SRC org
+      Kyle Sherman
+    #+END_SRC
+
+    #+NAME: full-name
     #+BEGIN_SRC org
       Kyle W T Sherman
     #+END_SRC
 
-*** Email
-
-    #+NAME: email
-    #+BEGIN_SRC org
-      <kylewsherman@gmail.com>
-    #+END_SRC
-
 *** Author
+    :PROPERTIES:
+    :CUSTOM_ID: constants-author
+    :END:
 
     #+NAME: author
     #+BEGIN_SRC org
-      Author: <<name>> <<email>>
+      Author: <<full-name>>
+    #+END_SRC
+
+*** Email
+    :PROPERTIES:
+    :CUSTOM_ID: constants-email
+    :END:
+
+    #+NAME: email-gen
+    #+BEGIN_SRC emacs-lisp
+      (concat "kyle" "w" "sherman" "@" "gmail" "." "com")
+    #+END_SRC
+
+    #+NAME: email
+    #+BEGIN_SRC org
+      <<email-gen()>>
+    #+END_SRC
+
+*** Author-Email
+    :PROPERTIES:
+    :CUSTOM_ID: constants-author-email
+    :END:
+
+    #+NAME: author-email
+    #+BEGIN_SRC org
+      <<author>> <<<email>>>
     #+END_SRC
 
 *** Copyright
+    :PROPERTIES:
+    :CUSTOM_ID: constants-copyright
+    :END:
 
     #+NAME: year
     #+BEGIN_SRC emacs-lisp
       (format-time-string "%Y" nil t)
     #+END_SRC
 
+    #+NAME: year-range
+    #+BEGIN_SRC emacs-lisp :var start-year="2022"
+      (if (string= "<<year()>>" start-year)
+          start-year
+        (concat start-year "-<<year()>>"))
+    #+END_SRC
+
     #+NAME: copyright
     #+BEGIN_SRC org
-      Copyright (C) <<year()>> <<name>>
+      Copyright © <<year-range()>> <<full-name>>
     #+END_SRC
 
 *** URL
@@ -148,7 +162,7 @@
       ;;
       ;;; <<copyright>>
       ;;
-      ;; <<author>>
+      ;; <<author-email>>
       ;; <<url>>
       ;;
       ;; This file is not part of GNU Emacs.
@@ -5594,6 +5608,989 @@
          (quote <<list-name-viking-surname()>>))
       #+END_SRC
 
+***** Name List: Ancient Greek
+
+      From: https://en.wikipedia.org/wiki/List_of_ancient_Greeks
+
+      #+NAME: list-name-ancient-greek
+      | Abronychus              |
+      | Acacius                 |
+      | Acesias                 |
+      | Acestorides             |
+      | Achaeus                 |
+      | Achaeus                 |
+      | Achermus                |
+      | Achilles Tatius         |
+      | Acron                   |
+      | Acrotatus               |
+      | Acusilaus               |
+      | Adeimantus              |
+      | Adrianus                |
+      | Aglaophon               |
+      | Aedesia                 |
+      | Aedesius                |
+      | Aegineta                |
+      | Aeimnestus              |
+      | Aelianus Tacticus       |
+      | Aelius Aristides        |
+      | Aeneas Tacticus         |
+      | Aenesidemus             |
+      | Aeropus                 |
+      | Aesara                  |
+      | Aeschines Socraticus    |
+      | Aeschines               |
+      | Aeschylus               |
+      | Aesop                   |
+      | Aetion                  |
+      | Aetius                  |
+      | Agallis                 |
+      | Agarista                |
+      | Agariste                |
+      | Agasias                 |
+      | Agasicles               |
+      | Agatharchides           |
+      | Agatharchus             |
+      | Agathias                |
+      | Agathinus               |
+      | Agathocles              |
+      | Agathon                 |
+      | Agathotychus            |
+      | Ageladas                |
+      | Agesander               |
+      | Agesilaus               |
+      | Agesipolis              |
+      | Agis                    |
+      | Aglaonike               |
+      | Agnodike                |
+      | Agoracritus             |
+      | Agresphon               |
+      | Agrippa                 |
+      | Agroetas                |
+      | Agyrrhius               |
+      | Albinus                 |
+      | Alcaeus                 |
+      | Alcaeus                 |
+      | Alcaeus                 |
+      | Alcamenes               |
+      | Alcetas                 |
+      | Alcibiades              |
+      | Alcidamas               |
+      | Alciphron               |
+      | Alcisthene              |
+      | Alcmaeon                |
+      | Alcman                  |
+      | Alcmenes                |
+      | Alexander Aetolus       |
+      | Alexander Balas         |
+      | Alexander Cornelius     |
+      | Alexander               |
+      | Alexander Polyhistor    |
+      | Alexandrides            |
+      | Alexias                 |
+      | Alexion                 |
+      | Alexis                  |
+      | Alexis                  |
+      | Alypius                 |
+      | Ambryon                 |
+      | Ameinias                |
+      | Ameinocles              |
+      | Ameipsias               |
+      | Amelesagoras            |
+      | Amelius                 |
+      | Amentes                 |
+      | Ammonius Grammaticus    |
+      | Ammonius Hermiae        |
+      | Ammonius Saccas         |
+      | Amphicrates             |
+      | Amphis                  |
+      | Amynander               |
+      | Anacharsis              |
+      | Anacreon                |
+      | Anaxagoras              |
+      | Anaxander               |
+      | Anaxandra               |
+      | Anaxandridas            |
+      | Anaxandrides            |
+      | Anaxarchus              |
+      | Anaxidamus              |
+      | Anaxilas                |
+      | Anaxilaus               |
+      | Anaximander             |
+      | Anaximenes              |
+      | Anaxippus               |
+      | Andocides               |
+      | Andreas                 |
+      | Andriscus               |
+      | Andromachus             |
+      | Andron                  |
+      | Andronicus              |
+      | Andronicus Rhodius      |
+      | Androsthenes            |
+      | Androtion               |
+      | Anniceris               |
+      | Anonymus                |
+      | Anser                   |
+      | Antagoras               |
+      | Antalcidas              |
+      | Antenor                 |
+      | Anthemius               |
+      | Anticleides             |
+      | Antidorus               |
+      | Antigenes               |
+      | Antigonus               |
+      | Antimachus              |
+      | Antinous                |
+      | Antiochis               |
+      | Antiochus               |
+      | Antipater               |
+      | Antiphanes              |
+      | Antiphemus              |
+      | Antiphilus              |
+      | Antiphon                |
+      | Antisthenes             |
+      | Antonius Diogenes       |
+      | Antoninus Liberalis     |
+      | Antyllus                |
+      | Anyte                   |
+      | Anytos                  |
+      | Apega                   |
+      | Apelles                 |
+      | Apellicon               |
+      | Apion                   |
+      | Apollocrates            |
+      | Apollodorus             |
+      | Apollonius              |
+      | Apollonius Sophista     |
+      | Apollonius              |
+      | Apollophanes            |
+      | Apollos                 |
+      | Appian                  |
+      | Apsines                 |
+      | Arachidamia             |
+      | Araros                  |
+      | Aratus                  |
+      | Arcesilas               |
+      | Arcesilaus              |
+      | Archidameia             |
+      | Archidamis              |
+      | Archedicus              |
+      | Archelaus               |
+      | Archermus               |
+      | Archestratus            |
+      | Archinus                |
+      | Architimus              |
+      | Archias                 |
+      | Archidamus              |
+      | Archigenes              |
+      | Archilochus             |
+      | Archimedes              |
+      | Archinos                |
+      | Archippas               |
+      | Archytas                |
+      | Arctinus                |
+      | Aretaeus                |
+      | Aretaphila              |
+      | Arete                   |
+      | Areus                   |
+      | Argas                   |
+      | Argentarius             |
+      | Arignote                |
+      | Arimneste               |
+      | Arion                   |
+      | Aristaeus               |
+      | Aristagoras             |
+      | Aristander              |
+      | Aristarchus             |
+      | Aristeas                |
+      | Aristeus                |
+      | Aristias                |
+      | Aristides               |
+      | Aristippus              |
+      | Aristobulus             |
+      | Aristocles              |
+      | Aristodemus             |
+      | Aristogiton             |
+      | Aristolycus             |
+      | Aristomenes             |
+      | Ariston                 |
+      | Aristonicus             |
+      | Aristonous              |
+      | Aristonymus             |
+      | Aristophanes            |
+      | Aristophon              |
+      | Aristotle               |
+      | Aristoxenus             |
+      | Arius Didymus           |
+      | Arius                   |
+      | Arrian                  |
+      | Arsecilas               |
+      | Arsinoe                 |
+      | Artemidorus             |
+      | Artemisia               |
+      | Artemon                 |
+      | Arxilaidas              |
+      | Asclepiades             |
+      | Asclepigenia            |
+      | Asclepiodotus           |
+      | Asius                   |
+      | Asmonius                |
+      | Aspasia                 |
+      | Aspasius                |
+      | Astydamas               |
+      | Astyochus               |
+      | Athenaeus               |
+      | Athenais                |
+      | Athenagoras             |
+      | Athenodorus             |
+      | Attalus                 |
+      | Autocrates              |
+      | Autolycus               |
+      | Avaris                  |
+      | Axiochus                |
+      | Axionicus               |
+      | Axiothea                |
+      | Babrius                 |
+      | Bacchylides             |
+      | Basil                   |
+      | Basilides               |
+      | Bathycles               |
+      | Battus                  |
+      | Berenice                |
+      | Bias                    |
+      | Bion                    |
+      | Biton                   |
+      | Boethus                 |
+      | Bolus                   |
+      | Boukris                 |
+      | Brasidas                |
+      | Brygus                  |
+      | Bryson                  |
+      | Bupalus                 |
+      | Cadmus                  |
+      | Caecilius               |
+      | Caesarion               |
+      | Calamis                 |
+      | Calliades               |
+      | Callia                  |
+      | Callias                 |
+      | Callicrates             |
+      | Calicrates              |
+      | Callicratidas           |
+      | Callimachus             |
+      | Callinus                |
+      | Calliphon               |
+      | Callippides             |
+      | Callippus               |
+      | Callisthenes            |
+      | Callistratus            |
+      | Carcinus                |
+      | Carneades               |
+      | Cassander               |
+      | Castor                  |
+      | Cebes                   |
+      | Celsus                  |
+      | Cephidorus              |
+      | Cephisodotus            |
+      | Cercidas                |
+      | Cercops                 |
+      | Chabrias                |
+      | Chaeremon               |
+      | Chaeris                 |
+      | Chaeron                 |
+      | Chamaeleon              |
+      | Charax                  |
+      | Chares                  |
+      | Charidemus              |
+      | Charillus               |
+      | Chariton                |
+      | Charmadas               |
+      | Charmidas               |
+      | Charmus                 |
+      | Charon                  |
+      | Charondas               |
+      | Cheramyes               |
+      | Cheilonis               |
+      | Chilon                  |
+      | Chionides               |
+      | Choerilus               |
+      | Chremonides             |
+      | Christodorus            |
+      | Chrysanthius            |
+      | Chrysippus              |
+      | Dio Chrysostom          |
+      | John Chrysostom         |
+      | Cimon                   |
+      | Cimon                   |
+      | Cinaethon               |
+      | Cineas                  |
+      | Cinesias                |
+      | Cleadas                 |
+      | Cleandridas             |
+      | Cleanthes               |
+      | Clearchus               |
+      | Clearidas               |
+      | Cledonius               |
+      | Cleidemus               |
+      | Cleinias                |
+      | Cleisthenes             |
+      | Cleitarchus             |
+      | Cleitus                 |
+      | Clement                 |
+      | Cleombrotus             |
+      | Cleomedes               |
+      | Cleon                   |
+      | Cleonides               |
+      | Cleonymus               |
+      | Cleopatra               |
+      | Cleophon                |
+      | Clitomachus             |
+      | Clitophon               |
+      | Cnemus                  |
+      | Colaeus                 |
+      | Colluthus               |
+      | Colotes                 |
+      | Colotes                 |
+      | Comeas                  |
+      | Conon                   |
+      | Corinna                 |
+      | Cosmas Indicopleustes   |
+      | Crantor                 |
+      | Craterus                |
+      | Crates                  |
+      | Cratesipolis            |
+      | Cratippus               |
+      | Cratylus                |
+      | Creon                   |
+      | Cresilas                |
+      | Critias                 |
+      | Critius                 |
+      | Crito                   |
+      | Critolaus               |
+      | Croesus                 |
+      | Ctesias                 |
+      | Ctesibius               |
+      | Cylon                   |
+      | Cynaethus               |
+      | Cynegeirus              |
+      | Cynisca                 |
+      | Cypselus                |
+      | Daimachus               |
+      | Daman                   |
+      | Damascius               |
+      | Damastes                |
+      | Damasias                |
+      | Damocles                |
+      | Damon                   |
+      | Damophilus              |
+      | Damophon                |
+      | Damoxenus               |
+      | Dares                   |
+      | Deinocrates             |
+      | Deidamia                |
+      | Deinias                 |
+      | Deiphontes              |
+      | Demades                 |
+      | Demaratus               |
+      | Demetrius Ixion         |
+      | Demetrius Lacon         |
+      | Demetrius Phalereus     |
+      | Democedes               |
+      | Democritus              |
+      | Demon                   |
+      | Demonax                 |
+      | Demophanes              |
+      | Demophon                |
+      | Demosthenes             |
+      | Dercyllidas             |
+      | Dexippus                |
+      | Diagoras                |
+      | Dicaearchus             |
+      | Dicaeogenes             |
+      | Dictys Cretensis        |
+      | Didymarchus             |
+      | Didymus Chalcenterus    |
+      | Didymus                 |
+      | Dienekes                |
+      | Dinarchus               |
+      | Dinocrates              |
+      | Dinon                   |
+      | Dio Cocceianus          |
+      | Diocles                 |
+      | Diodorus Cronus         |
+      | Diodorus Siculus        |
+      | Diodotus                |
+      | Diodotus Tryphon        |
+      | Dioetas                 |
+      | Diogenes Apolloniates   |
+      | Diogenes Laërtius       |
+      | Diogenes                |
+      | Diogenianus             |
+      | Diomedes                |
+      | Dion                    |
+      | Dionysius Aelius        |
+      | Dionysius Chalcus       |
+      | Dionysius Periegetes    |
+      | Dionysius Scytobrachion |
+      | Dionysius               |
+      | Dionysodorus            |
+      | Diophantus              |
+      | Dios                    |
+      | Dioscorides             |
+      | Dioscorides Pedanius    |
+      | Diotima                 |
+      | Diotimus                |
+      | Diotogenes              |
+      | Diphilus                |
+      | Dorieus                 |
+      | Dorissus                |
+      | Dorotheus               |
+      | Dosiadas                |
+      | Dositheus               |
+      | Draco                   |
+      | Dracon                  |
+      | Dropidas                |
+      | Duris                   |
+      | Duris                   |
+      | Echecrates              |
+      | Echestratus             |
+      | Ecphantides             |
+      | Ecphantus               |
+      | Eirenaeus               |
+      | Eirene                  |
+      | Elpinice                |
+      | Empedocles              |
+      | Entimus                 |
+      | Entochus                |
+      | Epaminondas             |
+      | Epaphroditus            |
+      | Ephialtes               |
+      | Ephippus                |
+      | Ephippus                |
+      | Ephorus                 |
+      | Epicharmus              |
+      | Epicles                 |
+      | Epicrates               |
+      | Epictetus               |
+      | Epictetus               |
+      | Epicurus                |
+      | Epigenes                |
+      | Epilycus                |
+      | Epimenides              |
+      | Epinicus                |
+      | Epiphanius              |
+      | Epitadas                |
+      | Epitadeus               |
+      | Erasistratus            |
+      | Eratosthenes            |
+      | Erinna                  |
+      | Eriphus                 |
+      | Erucius                 |
+      | Eryximachus             |
+      | Eryxo                   |
+      | Euangelus               |
+      | Euanthius               |
+      | Eubulides               |
+      | Eubulus                 |
+      | Eucleidas               |
+      | Eucleides               |
+      | Euclid                  |
+      | Eucratides              |
+      | Euctemon                |
+      | Eudamidas               |
+      | Eudemus                 |
+      | Euenus                  |
+      | Euetes                  |
+      | Eugammon                |
+      | Euhemerus               |
+      | Eumelus                 |
+      | Eumenes                 |
+      | Eumenius                |
+      | Eumolpidae              |
+      | Eunapius                |
+      | Eunomus                 |
+      | Euphantus               |
+      | Euphemus                |
+      | Euphorion               |
+      | Euphranor               |
+      | Euphron                 |
+      | Euphronius              |
+      | Eupolis                 |
+      | Eurybatus               |
+      | Eurybiades              |
+      | Eurycrates              |
+      | Eurycratides            |
+      | Eurydice                |
+      | Eurylochus              |
+      | Eurymedon               |
+      | Euripides               |
+      | Eurypon                 |
+      | Eurysthenes             |
+      | Eusebius of Caesarea    |
+      | Euthydemus              |
+      | Euthymides              |
+      | Eutychides              |
+      | Euthyphro               |
+      | Euxenides               |
+      | Evagoras                |
+      | Exekias                 |
+      | Favorinus               |
+      | Galen                   |
+      | Gastron                 |
+      | Gelo                    |
+      | George                  |
+      | Glaphya                 |
+      | Glaucus                 |
+      | Glycon                  |
+      | Gnathaena               |
+      | Gorgias                 |
+      | Gorgidas                |
+      | Gregory                 |
+      | Gryton                  |
+      | Gylippus                |
+      | Habron                  |
+      | Hagnodorus              |
+      | Hagnon                  |
+      | Hagnothemis             |
+      | Harmodius               |
+      | Harpalus                |
+      | Hecataeus               |
+      | Hecatomnus              |
+      | Hecato                  |
+      | Hedylus                 |
+      | Hegemon                 |
+      | Hegesander              |
+      | Hegesias                |
+      | Hegesippus              |
+      | Hegesipyle              |
+      | Hegesistratus           |
+      | Hegetorides             |
+      | Heliocles               |
+      | Heliodorus              |
+      | Hellanicus              |
+      | Hephaestion             |
+      | Hephaistio              |
+      | Heracleides             |
+      | Heraclides              |
+      | Heraclitus              |
+      | Hermaeus                |
+      | Hermagoras              |
+      | Hermesianax             |
+      | Hermias                 |
+      | Hermippus               |
+      | Hermocrates             |
+      | Hero                    |
+      | Aelius Herodianus       |
+      | Herodotus               |
+      | Herophilus              |
+      | Herostratus             |
+      | Hesiod                  |
+      | Hesychius               |
+      | Hicetas                 |
+      | Hiero                   |
+      | Hierocles               |
+      | Hierophon               |
+      | Hippalus                |
+      | Hipparchus              |
+      | Hippias                 |
+      | Hippocleides            |
+      | Hippocrates             |
+      | Hippodamus              |
+      | Hippodamas              |
+      | Hippolus                |
+      | Hipponax                |
+      | Hipponicus              |
+      | Hipponoidas             |
+      | Histiaeus               |
+      | Homer                   |
+      | Hypatia                 |
+      | Hyperbolus              |
+      | Hypereides              |
+      | Hypsicles               |
+      | Hypsicrates             |
+      | Herippidas              |
+      | Iamblichus              |
+      | Iambulus                |
+      | Iasus                   |
+      | Ibycus                  |
+      | Ictinus                 |
+      | Idomeneus               |
+      | Ion                     |
+      | Iophon                  |
+      | Iphicrates              |
+      | Irenaeus                |
+      | Isaeus                  |
+      | Isagoras                |
+      | Ischolaus               |
+      | Isidas                  |
+      | Isidore                 |
+      | Isidorus                |
+      | Isigonus                |
+      | Isocrates               |
+      | Ister                   |
+      | Istros                  |
+      | Isyllus                 |
+      | Illithia                |
+      | Jason                   |
+      | Karanus                 |
+      | Karkinos                |
+      | Kerykes                 |
+      | Kleoitas                |
+      | Koinos                  |
+      | Lacedaimonius           |
+      | Lachares                |
+      | Laches                  |
+      | Lacritus                |
+      | Lacydes                 |
+      | Lais                    |
+      | Lamachus                |
+      | Lamprocles              |
+      | Lamprus                 |
+      | Lanike                  |
+      | Lasus                   |
+      | Leochares               |
+      | Leon                    |
+      | Leonidas                |
+      | Leonida                 |
+      | Leonnatus               |
+      | Leosthenes              |
+      | Leotychidas             |
+      | Leotychides             |
+      | Lesbonax                |
+      | Lesches                 |
+      | Leucippus               |
+      | Leucon                  |
+      | Libanius                |
+      | Licymnius               |
+      | Livius Andronicus       |
+      | Lobon                   |
+      | Longinus                |
+      | Longus                  |
+      | Lucian                  |
+      | Lyco                    |
+      | Lycophron               |
+      | Lycortas                |
+      | Lycurgus                |
+      | Lycus                   |
+      | Lydiadas                |
+      | Lygdamis                |
+      | Lygdamus                |
+      | Lysander                |
+      | Lysanias                |
+      | Lysias                  |
+      | Lysimachus              |
+      | Lysippus                |
+      | Lysis                   |
+      | Lysistratus             |
+      | Machaon                 |
+      | Machon                  |
+      | Magas                   |
+      | Marcellus               |
+      | Marinus                 |
+      | Marsyas                 |
+      | Matris                  |
+      | Matron                  |
+      | Maximus                 |
+      | Megacles                |
+      | Megacleidas             |
+      | Megasthenes             |
+      | Meidias                 |
+      | Melanippides            |
+      | Melanthius              |
+      | Melas                   |
+      | Meleager                |
+      | Melesagoras             |
+      | Meletus                 |
+      | Melinno                 |
+      | Melissus                |
+      | Memnon                  |
+      | Menaechmus              |
+      | Menander                |
+      | Menecrates              |
+      | Menedaius               |
+      | Menedemus               |
+      | Menelaus                |
+      | Menestor                |
+      | Menexenus               |
+      | Menippus                |
+      | Meno                    |
+      | Menodotus               |
+      | Mentor                  |
+      | Mesatos                 |
+      | Metagenes               |
+      | Meton                   |
+      | Metrodorus              |
+      | Miciades                |
+      | Micciades               |
+      | Micon                   |
+      | Milo                    |
+      | Miltiades               |
+      | Mimnermus               |
+      | Mindarus                |
+      | Mnasalces               |
+      | Mnasippidas             |
+      | Mnaseas                 |
+      | Mnesicles               |
+      | Mnesimachus             |
+      | Moderatus               |
+      | Moeris                  |
+      | Moiro                   |
+      | Morsimus                |
+      | Moschion                |
+      | Moschus                 |
+      | Musaeus                 |
+      | Myia                    |
+      | Myron                   |
+      | Myronides               |
+      | Myrsilus                |
+      | Myrtilus                |
+      | Myrtis                  |
+      | Saint Nicholas          |
+      | Nabis                   |
+      | Gregory Nazianzus       |
+      | Nearchus                |
+      | Neoptolemus             |
+      | Nicander                |
+      | Nicarchus               |
+      | Nicias                  |
+      | Nicon                   |
+      | King Nicias             |
+      | Nicocreon               |
+      | Nicomachus              |
+      | Nicomedes               |
+      | Olympias                |
+      | Olympiodorus            |
+      | Onesilas                |
+      | Onomarchus              |
+      | Onomacritus             |
+      | Orestes                 |
+      | Origen                  |
+      | Oxylus                  |
+      | Paches                  |
+      | Paeonius                |
+      | Pagondas                |
+      | Palladas                |
+      | Pamphilus               |
+      | Pamphilus               |
+      | Pamphilus               |
+      | Panaetius               |
+      | Pantaleon               |
+      | Parmenides              |
+      | Parmenion               |
+      | Parrhasius              |
+      | Paulus                  |
+      | Pausanias               |
+      | Pedanius Dioscorides    |
+      | Peisander               |
+      | Peithias                |
+      | Pelopidas               |
+      | Pelops                  |
+      | Perdiccas               |
+      | Periander               |
+      | Pericles                |
+      | Persephone              |
+      | Perseus                 |
+      | Phaedo                  |
+      | Phaedrus                |
+      | Phaenippus              |
+      | Phalaris                |
+      | Pharacidas              |
+      | Pherecydes              |
+      | Pheretima               |
+      | Phidias                 |
+      | Phidippides             |
+      | Philetaerus             |
+      | Philippides             |
+      | Philodoppides           |
+      | Philonides              |
+      | Philip                  |
+      | Philippus               |
+      | Philistus               |
+      | Philitas                |
+      | Philo                   |
+      | Philolaus               |
+      | Philotas                |
+      | Philochorus             |
+      | Philocles               |
+      | Philostephanus          |
+      | Philotis                |
+      | Philoxenios             |
+      | Philoxenos              |
+      | Philoxenus              |
+      | Phocion                 |
+      | Phocylides              |
+      | Phormio                 |
+      | Phryne                  |
+      | Phrynichus              |
+      | Pigres                  |
+      | Pindar                  |
+      | Pirrone                 |
+      | Pisistratus             |
+      | Pittacus                |
+      | Pithios                 |
+      | Plato                   |
+      | Pleistarchus            |
+      | Pleistoanax             |
+      | Plotinus                |
+      | Plutarch                |
+      | Polemon                 |
+      | Polybius                |
+      | Polycarp                |
+      | Polycrates              |
+      | Polycrete               |
+      | Polydectes              |
+      | Polydorus               |
+      | Polygnotus              |
+      | Polykleitos             |
+      | Polyperchon             |
+      | Porphyry                |
+      | Posidippus              |
+      | Posidippus              |
+      | Posidonius              |
+      | Pratinas                |
+      | Praxilla                |
+      | Praxiteles              |
+      | Procles                 |
+      | Proclus                 |
+      | Proclus                 |
+      | Procopius               |
+      | Prodicus                |
+      | Protagoras              |
+      | Proteas                 |
+      | Prusias                 |
+      | Prytanis                |
+      | Ptolemaeus              |
+      | Ptolemy                 |
+      | Ptolemy Philadelphus    |
+      | Pyrrho                  |
+      | Pyrrhus                 |
+      | Pythagoras              |
+      | Pytheas                 |
+      | Pythocles               |
+      | Pythodorus              |
+      | Rhianus                 |
+      | Rhoecus                 |
+      | Sappho                  |
+      | Satyros                 |
+      | Satyrus                 |
+      | Scopas                  |
+      | Scylax                  |
+      | Seleucus                |
+      | Sextus Empiricus        |
+      | Simmias                 |
+      | Simonides               |
+      | Socrates                |
+      | Socrates Scholasticus   |
+      | Solon                   |
+      | Soos                    |
+      | Sopatras                |
+      | Sophocles               |
+      | Sophytes                |
+      | Sosicles                |
+      | Sosigenes               |
+      | Sosthenes               |
+      | Sostratus               |
+      | Spartacus               |
+      | Speusippus              |
+      | Spintharus              |
+      | Sporus                  |
+      | Stesichorus             |
+      | Stesimbrotus            |
+      | Sthenippus              |
+      | Stilpo                  |
+      | Stobaeus                |
+      | Strabo                  |
+      | Strato                  |
+      | Straton                 |
+      | Styphon                 |
+      | Teleclus                |
+      | Terence                 |
+      | Terpander               |
+      | Thais                   |
+      | Thales                  |
+      | Thallus                 |
+      | Theaetetus              |
+      | Theagenes               |
+      | Theages                 |
+      | Theano                  |
+      | Themisteus              |
+      | Themistocles            |
+      | Themistogenes           |
+      | Theocritus              |
+      | Theodectes              |
+      | Theodorus               |
+      | Theognis                |
+      | Theon                   |
+      | Aelius Theon            |
+      | Theophilus              |
+      | Theophrastus            |
+      | Theopompus              |
+      | Theramenes              |
+      | Therimenes              |
+      | Theron                  |
+      | Thespus                 |
+      | Thessalus               |
+      | Thibron                 |
+      | Thorax                  |
+      | Thrasippus              |
+      | Thrasybulus             |
+      | Thrasyllus              |
+      | Thrasymachus            |
+      | Thrasymelidas           |
+      | Thucydides              |
+      | Thucydides              |
+      | Ticidas                 |
+      | Tidas                   |
+      | Timachidas              |
+      | Timaeus                 |
+      | Timagenes               |
+      | Timanthes               |
+      | Timasitheus             |
+      | Timocharis              |
+      | Timoclea                |
+      | Timocles                |
+      | Timocrates              |
+      | Timocreon               |
+      | Timoleon                |
+      | Timon                   |
+      | Timostratus             |
+      | Timotheus               |
+      | Tisamenus               |
+      | Tolmides                |
+      | Triphiodorus            |
+      | Tynnichus               |
+      | Tyrannion               |
+      | Tyrimmas                |
+      | Tyrtaeus                |
+      | Ulysses                 |
+      | Xanthippe               |
+      | Xanthippus              |
+      | Xanthus                 |
+      | Xenagoras               |
+      | Xenarchus               |
+      | Xenocles                |
+      | Xenoclides              |
+      | Xenocrates              |
+      | Xenophanes              |
+      | Xenophilus              |
+      | Xenophon                |
+      | Zaleucus                |
+      | Zeno                    |
+      | Zenobius                |
+      | Zenodorus               |
+      | Zenodotus               |
+      | Zeuxidamas              |
+      | Zeuxis                  |
+      | Zoilus                  |
+      | Zonis                   |
+      | Zosimas                 |
+
+      #+BEGIN_SRC emacs-lisp
+        (game-master-assistant-lists--add-to-list
+         "noun-name-ancient-greek"
+         "List of ancient Greek names."
+         (quote <<list-name-ancient-greek()>>))
+      #+END_SRC
+
 *** Places Lists
 
 ***** Noun List: Places
@@ -6623,7 +7620,7 @@
     ;;
     ;;; <<copyright>>
     ;;
-    ;; <<author>>
+    ;; <<author-email>>
     ;; <<url>>
     ;; Created: 2022-02-19
     ;; Version: 1.0
@@ -6739,7 +7736,7 @@
                       (kill-new
                        (concat
                         (game-master-assistant-random-value "ironsworn-oracle-action")
-                        " / "
+                        " "
                         (game-master-assistant-random-value "ironsworn-oracle-theme")))))))
 
     ;;; Final Setup
@@ -6770,7 +7767,7 @@
     ;; ;;
     ;; ;;; <<copyright>>
     ;; ;;
-    ;; ;; <<author>>
+    ;; ;; <<author-email>>
     ;; ;; Created: 2021-07-17
     ;; ;;
     ;; ;; This file is not part of GNU Emacs.
