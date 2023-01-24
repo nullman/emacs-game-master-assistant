@@ -8,7 +8,7 @@
   #+LANGUAGE: en
   #+PROPERTY: header-args :tangle no :noweb yes :results silent :mkdir yes
   #+OPTIONS: num:nil toc:nil d:(HIDE) tags:not-in-toc html-preamble:nil html-postamble:nil
-  #+TIMESTAMP: <2023-01-24 13:43 (kyle)>
+  #+TIMESTAMP: <2023-01-24 14:01 (kyle)>
 
 * Constants
 
@@ -20,9 +20,6 @@
     #+END_SRC
 
 *** Name
-    :PROPERTIES:
-    :CUSTOM_ID: constants-name
-    :END:
 
     #+NAME: name
     #+BEGIN_SRC org
@@ -35,9 +32,6 @@
     #+END_SRC
 
 *** Author
-    :PROPERTIES:
-    :CUSTOM_ID: constants-author
-    :END:
 
     #+NAME: author
     #+BEGIN_SRC org
@@ -45,9 +39,6 @@
     #+END_SRC
 
 *** Email
-    :PROPERTIES:
-    :CUSTOM_ID: constants-email
-    :END:
 
     #+NAME: email-gen
     #+BEGIN_SRC emacs-lisp
@@ -60,19 +51,18 @@
     #+END_SRC
 
 *** Author-Email
-    :PROPERTIES:
-    :CUSTOM_ID: constants-author-email
-    :END:
+
+    #+NAME: author-email-gen
+    #+BEGIN_SRC emacs-lisp
+      (concat "<<author>>" " <" "<<email>>" ">")
+    #+END_SRC
 
     #+NAME: author-email
     #+BEGIN_SRC org
-      <<author>> <<<email>>>
+      <<author-email-gen()>>
     #+END_SRC
 
 *** Copyright
-    :PROPERTIES:
-    :CUSTOM_ID: constants-copyright
-    :END:
 
     #+NAME: year
     #+BEGIN_SRC emacs-lisp

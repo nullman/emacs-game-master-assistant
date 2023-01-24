@@ -1,6 +1,6 @@
 ;;; game-master-assistant.el -- Roll playing Game Master helper functions -*- lexical-binding: t; -*-
 ;;
-;;; Copyright (C) 2022 Kyle W T Sherman
+;;; Copyright © 2022-2023 Kyle W T Sherman
 ;;
 ;; Author: Kyle W T Sherman <kylewsherman@gmail.com>
 ;; URL: https://github.com/nullman/emacs-game-master-assistant
@@ -75,21 +75,9 @@ Where NAME is a list name in `game-master-assistant-lists'."
          (len (length values)))
     (capitalize (nth (random len) values))))
 
-(defun game-master-assistant-random-query (&optional name)
-  "Return a random value from random query NAME,
-
-Where NAME is a query name in `game-master-assistant-random-queries'."
-  (interactive)
-  (let ((name (or name
-                  (completing-read
-                   "Query Name: "
-                   game-master-assistant-random-query-history
-                   nil t nil))))
-    (funcall (cddr (assoc name game-master-assistant-random-queries)))))
-
 ;;; Single List Queries
 
-(dolist (name game-master-assistant-random-list-names)
+(dolist (name (mapcar #'car game-master-assistant-lists))
   (add-to-list
    'game-master-assistant-random-queries
    (cons name
@@ -141,12 +129,24 @@ using TYPE and GENDER."
                   (kill-new
                    (concat
                     (game-master-assistant-random-value "ironsworn-oracle-action")
-                    " / "
+                    " "
                     (game-master-assistant-random-value "ironsworn-oracle-theme")))))))
 
 ;;; Final Setup
 
 (setq game-master-assistant-random-query-history (mapcar 'car game-master-assistant-random-queries))
+
+(defun game-master-assistant-random-query (&optional name)
+  "Return a random value from random query NAME,
+
+Where NAME is a query name in `game-master-assistant-random-queries'."
+  (interactive)
+  (let ((name (or name
+                  (completing-read
+                   "Query Name: "
+                   game-master-assistant-random-query-history
+                   nil t nil))))
+    (funcall (cddr (assoc name game-master-assistant-random-queries)))))
 
 (provide 'game-master-assistant)
 
